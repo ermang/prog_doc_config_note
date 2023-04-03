@@ -1,0 +1,364 @@
+docker image ls -> list downloaded images
+
+docker ps --all ->  list images that you downloaded to your machine.
+
+docker build --tag bulletinboard:1.0 . ->
+
+docker run --publish 8080:8080 --detach --name yafi yafi:1.0 
+
+-> 
+
+--publish asks Docker to forward traffic incoming on the host’s port 8000 to the container’s port 8080. Containers have their own private set of ports, so if you want to reach one from the network, you have to forward traffic to it in this way. Otherwise, firewall rules will prevent all network traffic from reaching your container, as a default security posture.
+--detach asks Docker to run this container in the background.
+--name specifies a name with which you can refer to your container in subsequent commands, in this case bb
+
+docker rm --force bb
+
+->
+
+The --force option stops a running container, so it can be removed. If you stop the container running with docker stop bb first, then you do not need to use --force to remove it.
+
+---SAMPLE DOCKERFILE---
+Sample Dockerfile
+
+Writing a Dockerfile is the first step to containerizing an application. You can think of these Dockerfile commands as a step-by-step recipe on how to build up your image. The Dockerfile in the bulletin board app looks like this:
+
+# Use the official image as a parent image.
+FROM node:current-slim
+
+# Set the working directory.
+WORKDIR /usr/src/app
+
+# Copy the file from your host to your current location.
+COPY package.json .
+
+# Run the command inside your image filesystem.
+RUN npm install
+
+# Add metadata to the image to describe which port the container is listening on at runtime.
+EXPOSE 8080
+
+# Run the specified command within the container.
+CMD [ "npm", "start" ]
+
+# Copy the rest of your app's source code from your host to your image filesystem.
+COPY . .
+
+
+The dockerfile defined in this example takes the following steps:
+
+    Start FROM the pre-existing node:current-slim image. This is an official image, built by the node.js vendors and validated by Docker to be a high-quality image containing the Node.js Long Term Support (LTS) interpreter and basic dependencies.
+    Use WORKDIR to specify that all subsequent actions should be taken from the directory /usr/src/app in your image filesystem (never the host’s filesystem).
+    COPY the file package.json from your host to the present location (.) in your image (so in this case, to /usr/src/app/package.json)
+    RUN the command npm install inside your image filesystem (which will read package.json to determine your app’s node dependencies, and install them)
+    COPY in the rest of your app’s source code from your host to your image filesystem.
+
+You can see that these are much the same steps you might have taken to set up and install your app on your host. However, capturing these as a Dockerfile allows you to do the same thing inside a portable, isolated Docker image.
+
+The steps above built up the filesystem of our image, but there are other lines in your Dockerfile.
+
+The CMD directive is the first example of specifying some metadata in your image that describes how to run a container based on this image. In this case, it’s saying that the containerized process that this image is meant to support is npm start.
+
+The EXPOSE 8080 informs Docker that the container is listening on port 8080 at runtime.
+
+--remove all stopped containers
+docker rm $(docker ps -a -q)
+
+--how to connect to a container
+
+sudo docker run -it openjdk bash
+
+
+
+
+
+######################################PART-2###################################################
+
+->docker run -d -p 80:80 docker/getting-started
+
+d - run the container in detached mode (in the background)
+-p 80:80 - map port 80 of the host to port 80 in the container
+docker/getting-started - the image to use
+
+
+# syntax=docker/dockerfile:1
+FROM
+Learn more about the "FROM" Dockerfile command.
+ node:12-alpine
+RUN apk add --no-cache python2 g++ make
+WORKDIR /app
+COPY . .
+RUN yarn install --production
+CMD ["node", "src/index.js"]
+
+ docker build -t getting-started .
+ 
+ Finally, the -t flag tags our image. Think of this simply as a human-readable name for the final image. Since we named the image getting-started, we can refer to that image when we run a container.
+ 
+  The CMD directive specifies the default command to run when starting a container from this image.
+  
+  docker run -dp 3000:3000 getting-started
+  
+  Remember the -d and -p flags? We’re running the new container in “detached” mode (in the background) and creating a mapping between the host’s port 3000 to the container’s port 3000. Without the port mapping, we wouldn’t be able to access the application.
+  
+  
+docker ps
+  
+Swap out <the-container-id> with the ID from docker ps
+docker stop <the-container-id>
+
+docker rm <the-container-id>
+
+You can stop and remove a container in a single command by adding the “force” flag to the docker rm command. For example: docker rm -f <the-container-id>
+
+
+
+docker exec <container-id> cat /data.txt
+ 
+You need to get the container’s ID (use docker ps to get it) and get the content with the following command.
+
+
+docker volume create todo-db
+
+Create a volume by using the docker volume create command.
+
+docker run -dp 3000:3000 -v todo-db:/etc/todos getting-started
+
+Start the todo app container, but add the -v flag to specify a volume mount. We will use the named volume and mount it to /etc/todos, which will capture all files created at the path.
+
+While named volumes and bind mounts (which we’ll talk about in a minute) are the two main types of volumes supported by a default Docker engine installation, there are many volume driver plugins available to support NFS, SFTP, NetApp, and more! This will be especially important once you start running containers on multiple hosts in a clustered environment with Swarm, Kubernetes, etc.
+
+docker volume inspect todo-db
+
+The Mountpoint is the actual location on the disk where the data is stored. Note that on most machines, you will need to have root access to access this directory from the host. But, that’s where it is!
+
+
+With bind mounts, we control the exact mountpoint on the host. We can use this to persist data, but it’s often used to provide additional data into containers. When working on an application, we can use a bind mount to mount our source code into the container to let it see code changes, respond, and let us see the changes right away.
+
+
+Container networking
+
+Remember that containers, by default, run in isolation and don’t know anything about other processes or containers on the same machine. So, how do we allow one container to talk to another? The answer is networking. Now, you don’t have to be a network engineer (hooray!). Simply remember this rule...
+
+    Note
+
+    If two containers are on the same network, they can talk to each other. If they aren’t, they can’t.
+
+docker network create todo-app
+
+Create the network.
+
+docker run -d \
+    --network todo-app --network-alias mysql \
+    -v todo-mysql-data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=secret \
+    -e MYSQL_DATABASE=todos \
+    mysql:5.7
+    
+You’ll notice we’re using a volume named todo-mysql-data here and mounting it at /var/lib/mysql, which is where MySQL stores its data. However, we never ran a docker volume create command. Docker recognizes we want to use a named volume and creates one automatically for us.
+
+ docker exec -it <mysql-container-id> mysql -u root -p
+ 
+ To confirm we have the database up and running, connect to the database and verify it connects.
+ 
+Now that we know MySQL is up and running, let’s use it! But, the question is... how? If we run another container on the same network, how do we find the container (remember each container has its own IP address)?
+
+To figure it out, we’re going to make use of the nicolaka/netshoot container, which ships with a lot of tools that are useful for troubleshooting or debugging networking issues.
+
+docker run -it --network todo-app nicolaka/netshoot
+
+Start a new container using the nicolaka/netshoot image. Make sure to connect it to the same network.
+
+dig mysql
+
+
+The todo app supports the setting of a few environment variables to specify MySQL connection settings. They are:
+
+    MYSQL_HOST - the hostname for the running MySQL server
+    MYSQL_USER - the username to use for the connection
+    MYSQL_PASSWORD - the password to use for the connection
+    MYSQL_DB - the database to use once connected
+
+    Setting Connection Settings via Env Vars
+
+    While using env vars to set connection settings is generally ok for development, it is HIGHLY DISCOURAGED when running applications in production. Diogo Monica, the former lead of security at Docker, wrote a fantastic blog post explaining why.
+
+    A more secure mechanism is to use the secret support provided by your container orchestration framework. In most cases, these secrets are mounted as files in the running container. You’ll see many apps (including the MySQL image and the todo app) also support env vars with a _FILE suffix to point to a file containing the variable.
+
+    As an example, setting the MYSQL_PASSWORD_FILE var will cause the app to use the contents of the referenced file as the connection password. Docker doesn’t do anything to support these env vars. Your app will need to know to look for the variable and get the file contents.
+
+    
+docker logs <container-id>
+
+
+##########################PART-3#################################
+
+docker container run -> always starts a new container
+
+docket container start => to start an existing stopped one 
+
+docker container logs  name|container_id => show logs for that container
+
+docker container top name|container_id => Display the running processes of a container
+
+docker container inspect => details of one container config
+
+docker container stats => perf stats for all containers
+
+docker container run -it => start a new container interactively
+
+docker container exec -it => run additional command in existing container
+
+docker container run -it --name ubuntu ubuntu => ubuntus default startup thing is bash so no extra command
+
+docker container start -ai => to start an existing stopped one with terminal
+
+docker container exec -it mysql bash => connect to a running container(named ubuntu) with bash
+
+docker container run -it alpine sh => alpine doesnt have bash by default but has sh
+
+--net=host => skip virutal networks use host IP
+
+docker container run -p 80:80 --name webhost nginx => -p host:container ports in that order
+
+docker container port name|container_id => 
+
+docker container inspect --format '{{ .NetworkSettings.IPAddress }}' name|container_id =>
+
+docker network ls
+
+docker network inspect
+
+docker network create --driver
+
+docker network connect/disconnect
+
+--network bridge => default docker virtual network, which is NAT'ed behind host IP
+
+--network host => gains perf by skipping virtual network, lowers security - directly attaches to the host interface
+
+--network none => removes eth0 and only leavytes you with localhost interface container
+
+docker container run -d --name new_nginx --network my_app_net nginx
+
+by default bridge network
+all containers on a virutal network can talk to each other without -p
+best practice to create a new virtual network for each application
+
+docker dns => docker deamon has a bult in dns server taht containers use by default
+
+docker defaults the hostname to the containers name, but you can olso set aliases
+
+---
+dokcer container run --network my_net --network-alias alias1 elasticsearch:2
+dokcer container run --network my_net --network-alias alias1 elasticsearch:2
+
+--network-alias alias1 => creates alias so when you try to reach => they have the same dns name
+---
+
+dokcer history image_name =>
+
+docker image inspect image_name =>
+
+docker image tag --help =>
+
+<user>/<repo>:<tag> =>
+
+docker image push =>
+
+docker build -f some_docker_file
+
+docker image build -t nginx-with-html .
+
+docker image prune => clean up dangling images
+
+docker system prune => clean up eveything
+
+docker system df => see system usage
+
+volumes => special location outside of container UFS
+bind mounts => link container path to host path
+bind mounts cant be used in docker Dockerfile, must be at container run
+
+... run -v /home/eg/stuff:/path/container
+
+docker volume inspect volume_name|volume_id
+
+docker run ..... -v mysql-db:/var/lib/mysql => named volume
+
+
+docker run -p 80:4000 -v $(pwd):/site bretfisher/jekyll-serve => bind mount sample
+
+POSTGRTES_PASSWORD=mypasswd => set docker passwd fron environment variables
+
+or 
+
+POSTGRES_HOST_AUTH_METHOD=trust => tell it to ignore passwords
+
+docker-compose versions important
+
+docker-compose.yml default name
+
+docker-compose good for dev not for prod
+
+docker-compose up =>setup volumes/networks and start all containers
+docker-compose down => stop all containers and remove cont/vol/networks
+
+sample docker-compose.yml:
+
+version: '3'
+
+services:
+  proxy:
+    image: nginx:1.13 # this will use the latest version of 1.13.x
+    ports:
+      - '80:80' # expose 80 on host and sent to 80 in container
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  web:
+    image: httpd  # this will use httpd:latest
+
+--
+
+template for docker-compose:
+
+version: '3.1'  # if no version is specified then v1 is assumed. Recommend v2 minimum
+
+services:  # containers. same as docker run
+  servicename: # a friendly name. this is also DNS name inside network
+    image: # Optional if you use build:
+    command: # Optional, replace the default CMD specified by the image
+    environment: # Optional, same as -e in docker run
+    volumes: # Optional, same as -v in docker run
+  servicename2:
+
+volumes: # Optional, same as docker volume create
+
+networks: # Optional, same as docker network create
+
+--
+
+docker-compose logs =>
+
+docker-compose -d => detached mode
+
+docke-compse uses service name as dns name
+
+docker-compose build => to rebuild
+
+444 0 336 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
