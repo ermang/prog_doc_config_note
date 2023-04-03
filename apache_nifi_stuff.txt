@@ -1,0 +1,13 @@
+#desktop linux user-pass
+
+Generated Username [13533f86-c9ec-4e78-aa67-be4172194bb8]
+Generated Password [2+btJythhMqMgvmXbbTtqhnqBu8WGAff]
+
+#to run nifi in foreground
+./nifi.sh run
+
+https://127.0.0.1:8443/nifi
+
+./bin/nifi.sh set-single-user-credentials <username> <password>
+
+
