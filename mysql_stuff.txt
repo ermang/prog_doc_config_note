@@ -1,0 +1,58 @@
+default port 3306
+
+username root
+passwd root
+
+
+spring.datasource.url = jdbc:mysql://localhost:3306/gehive?useUnicode=yes&characterEncoding=UTF-8
+
+
+
+//phpmyadmin den jdbc connection string cekmece
+
+SHOW VARIABLES WHERE Variable_name = 'hostname' 
+
+SHOW VARIABLES WHERE Variable_name = 'port'
+
+
+https://askubuntu.com/questions/750604/why-does-mariadb-keep-dying-how-do-i-stop-it
+
+
+https://stackoverflow.com/questions/1814532/1071-specified-key-was-too-long-max-key-length-is-767-bytes
+
+https://serverfault.com/questions/295285/mysql-cannot-connect-via-localhost-only-127-0-0-1
+
+
+https://stackoverflow.com/questions/5391564/how-to-use-distinct-and-order-by-in-same-select-statement
+
+https://dzone.com/articles/how-sql-distinct-and-order-by-are-related
+
+
+https://stackoverflow.com/questions/3722510/why-does-an-insert-query-occasionally-take-so-long-to-complete
+
+/MYSQL 8 stuff
+ALTER USER 'student'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass123'
+
+/etc/my.cnf
+
+#CUSTOM SET BY ME
+validate_password.policy=LOW
+validate_password.length=4
+validate_password.mixed_case_count=0
+validate_password.number_count=0
+validate_password.special_char_count=0
+validate_password.check_user_name=OFF
+
+https://dev.mysql.com/doc/mysql-sles-repo-quick-guide/en/#repo-qg-sles-fresh-install
+
+sudo grep 'temporary password' /var/log/mysql/mysqld.log
+
+//opensuse mariadb after install login as root then
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('mypass');
+FLUSH PRIVILEGES;
+
+-- general_log acmaca
+
+show variables;
+SET global general_log = 'ON';
+SET global general_log_file = '/var/log/mysql/mysql_general.log';
