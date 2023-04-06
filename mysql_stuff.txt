@@ -56,3 +56,16 @@ FLUSH PRIVILEGES;
 show variables;
 SET global general_log = 'ON';
 SET global general_log_file = '/var/log/mysql/mysql_general.log';
+
+
+//for mariadb
+
+switch to root account with su
+from bash type mariadb enter
+ALTER USER 'root'@'localhost' IDENTIFIED  BY 'root';
+
+exit switch to normal account
+
+mariadb -u root -proot
+
+you should be able to login
