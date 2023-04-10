@@ -1,3 +1,21 @@
+
+-----
+
+docker pull redis:7.0.10
+
+docker pull mariadb:10.10.3
+
+docker run -it --name my_mariadb -p 3306:3306 --env MARIADB_ROOT_PASSWORD=root  --env MARIADB_DATABASE=testy mariadb:10.10.3
+docker start -ai my_mariadb
+docker exec -it my_mariadb bash
+
+
+docker run -it -p 6379:6379 --name my_redis redis:7.0.10
+docker start -ai my_redis
+docker exec -it my_redis bash
+
+-----
+
 docker image ls -> list downloaded images
 
 docker ps --all ->  list images that you downloaded to your machine.
