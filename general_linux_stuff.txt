@@ -1,0 +1,10 @@
+general_linux_stuff
+
+How can I find what video driver is in use on my system?
+hwinfo --gfxcard
+
+how to install nvidia drivers
+https://en.opensuse.org/SDB:NVIDIA_drivers
+
+how to install packman
+https://en.opensuse.org/SDB:Installing_codecs_from_Packman_repositories
