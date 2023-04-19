@@ -1,0 +1,14 @@
+n8n_stuff.txt
+
+CUSTOM_NODE_STUFF
+
+go to your custom node's directory
+
+npm run build
+npm link
+
+go to n8ns node directory for linux => /opt/node-v18.15.0-linux-x64/lib/node_modules/n8n-nodes>
+
+npm link <name given in the package.json of your custom node>
+
+start/stop n8n, you should see your custom node
