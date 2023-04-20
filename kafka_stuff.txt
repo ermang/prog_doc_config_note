@@ -1,0 +1,14 @@
+#Start the ZooKeeper service
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+#Start the Kafka broker service
+bin/kafka-server-start.sh config/server.properties
+
+#create topic
+bin/kafka-topics.sh --create --topic my_topic --bootstrap-server localhost:9092
+
+#produce event
+bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092
+
+#consume event
+bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
