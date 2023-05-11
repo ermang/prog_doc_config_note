@@ -1,0 +1,3 @@
+nodejs_stuff
+
+https://stackoverflow.com/questions/48387040/how-do-i-determine-the-correct-max-old-space-size-for-node-js

@@ -2,6 +2,8 @@ n8n_stuff.txt
 
 CUSTOM_NODE_STUFF
 
+DEV_STYLA
+
 go to your custom node's directory
 
 npm run build
@@ -12,3 +14,18 @@ go to n8ns node directory for linux => /opt/node-v18.15.0-linux-x64/lib/node_mod
 npm link <name given in the package.json of your custom node>
 
 start/stop n8n, you should see your custom node
+
+PROD_STYLA
+
+
+go to your custom node's directory
+npm install
+npm run build
+npm pack => this generates a .tgz file
+copy it to ~/.n8n/custom/
+npm install my_node.tgz
+stop start n8n
+
+custom klasoru bu islemlerden sonra boyle olmali
+
+n8n-nodes-hf-node-1.0.0.tgz  node_modules  package.json  package-lock.json
