@@ -1,0 +1,60 @@
+camunda stuff
+
+---
+use camunda modeler
+camunda-bpm-run v7 not 8 !!!
+
+---
+
+to enable authorization for camunda engine
+
+camunda.bpm:
+  authorization.enabled: true
+---
+
+camunda rest http call example
+
+As Camunda Connect is an optional dependency, it is not immediately available when using the process engine.
+With a pre-built distribution, Camunda Connect is already preconfigured.
+
+https://docs.camunda.org/manual/7.13/reference/connect/http-connector/
+
+https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask/rest-service
+---
+
+form isleri
+
+iki tip form var
+
+embedded forms =>
+
+.html file içine yazıyon
+
+modeler den upload ederken bpm lerle birlikte tek seferde deploy et.
+
+https://docs.camunda.org/manual/7.17/user-guide/task-forms/#form-key-details
+https://docs.camunda.org/manual/7.17/reference/forms/embedded-forms/
+
+camounda forms =>
+
+camunda modeler den yapıyon tık tık form id yi bpmn de veriyorsun bağlıyor
+deploy ederken form u da vermeyi unutma
+upload buton yok
+
+---
+
+content-security-policy a.k.a csp stuff
+
+to disable csp add below to bpm run's config.
+by default it uses default.yml
+
+https://docs.camunda.org/manual/7.19/webapps/shared-options/header-security/
+
+<script type="application/javascript" nonce="$CSP_NONCE">
+
+#CUSTOM ADDED BY ME
+camunda.bpm:
+  webapp:
+    header-security:
+      content-security-policy-disabled: true
+
