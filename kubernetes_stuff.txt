@@ -22,15 +22,35 @@ kubectl top pods => like top but for pods, cool
 kubectl diff -f my.yml => shows whats going to change, assume my.yml was applied then modified before the diff subcommand
 kubectl apply -f my.yml --dry-run=server =>
 
+kubectl get storageclass local-storage -o yaml
+kubectl get storageclass
 
+kubectl run busybox --image=busybox --restart=Never --rm -it -- sh
 
+kubectl cp <pod-name>:<path-to-file> <destination-path-on-host> => to copy something from pod to host machine
+kubectl cp my-pod:/data/myfile.txt .
 
-
+kubectl cp ./osman.txt n8n-deployment-5cb75d885d-822vd:/home/node/.n8n => current directory deki osman.txt i pod id nin icinde belirtilen klasore kopyalamaca
 
 minikube_specific_stuff
 -----
+alias kubectl="minikube kubectl --"
+
 
 minikube service <service-name> --url
+
+minikube kubectl -- get po -A
+minikube delete --all => delete all of minikube cluesters
+
+#list of addons in minikube
+minikube addons list
+
+#to enable metrics-server addon
+minikube addons enable metrics-server
+
+# run top every 2 sec. by default
+watch minikube kubectl --  top pods
+
 
 persistent volume leri buraya atiyor, sallamiyor verilen hostpath i kind: PersistentVolume icin
 
@@ -41,6 +61,27 @@ storageClassName: "" boyle yazarsan da minikube instance i icine atiyormus
 oraya nasil gidiyon ?
 minikube ssh
 cd yle git bak verdigin path e gorucen orda
+
+In Minikube, the local volume type is supported through the local-path-provisioner addon.
+
+To enable the local volume type in Minikube, you need to start Minikube with the --mount-string flag and specify the directory to use for the local volumes. Here are the steps to follow:
+
+    Start Minikube with the --mount-string flag:
+
+
+minikube start --mount-string="/path/to/local/volumes:/mnt/local-pv"
+
+Replace /path/to/local/volumes with the directory on your host machine that you want to use for the local volumes.
+
+Verify that the local volume type is available:
+
+
+
+    kubectl get cs
+
+    Look for the storage.k8s.io/local-volume entry in the STORAGECLASS column. If it's not there, try restarting Minikube and checking again.
+
+You can now create a PersistentVolume with the local volume type in your YAML file, and use it in a Pod as you normally would.
 -----
 
 
