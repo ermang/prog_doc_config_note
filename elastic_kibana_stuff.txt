@@ -1,0 +1,32 @@
+elastic_stuff
+
+docker network create somenetwork
+docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:8.7.1
+
+docker run -d -p 9200:9200 -p 9300:9300 \
+  -e "xpack.security.enabled=false"   -e "xpack.security.transport.ssl.enabled=false" -e "xpack.security.http.ssl.enabled=false" \
+  docker.elastic.co/elasticsearch/elasticsearch:tag
+
+from browser http://localhost:9200 or https://localhost:9200 based on securit settings given above
+
+elasticsearch-8.7.1/config/elasticsearch.yml => config file
+
+https://www.elastic.co/guide/en/elasticsearch/reference/8.7/security-settings.html#general-security-settings
+
+elastic k8s when doing volume stuff, need to run chmod 777 on the folder
+
+-----
+kibana stuff
+
+docker run -d --name kibana --net somenetwork -p 5601:5601 kibana:8.7.1
+
+
+kibana-8.7.1/config/kibana.yml => config file
+
+https://discuss.elastic.co/t/kibana-asking-for-enrollment-token-when-xpack-security-enabled-false-in-elasticsearch/302118
+
+https://github.com/elastic/elasticsearch/issues/87296
+
+https://www.elastic.co/guide/en/kibana/current/settings.html
+
+-----

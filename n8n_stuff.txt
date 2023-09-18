@@ -29,3 +29,15 @@ stop start n8n
 custom klasoru bu islemlerden sonra boyle olmali
 
 n8n-nodes-hf-node-1.0.0.tgz  node_modules  package.json  package-lock.json
+
+-----
+
+nodejs out of memory error onlemek icin
+https://docs.n8n.io/flow-logic/error-handling/memory-errors/#avoid-the-n8n-instance-crashing-when-a-workflow-crashes
+
+-----
+when defining n8n credentials if you want to use environment variables do it like this:
+
+{{ $env.CUSTOM_REDIS_HOST }}
+
+-----

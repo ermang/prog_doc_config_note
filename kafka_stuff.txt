@@ -7,6 +7,9 @@ bin/kafka-server-start.sh config/server.properties
 #create topic
 bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092
 
+#list all topics
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+
 #produce event
 bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092
 
@@ -19,3 +22,8 @@ bin/kafka-consumer-groups.sh --list --bootstrap-server localhost:9092
 #to check if certain consumer group has finished processing all messages in a particular topic
 #Zero lag for every partition will indicate that the messages have been consumed successfully, and offsets committed by the consumer
 bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group
+
+#when connecting rom remote machine set server.properties
+
+#CUSTOM_BY_ME
+listeners = PLAINTEXT://192.168.49.1:9092

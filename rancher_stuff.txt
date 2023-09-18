@@ -1,0 +1,15 @@
+lokalde rancher kaldirmaca
+
+$ sudo docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+
+https://127.0.0.1/ => to access its web gui
+
+
+#to access containers such as n8n
+
+kubectl get node -o wide
+
+use the INTERNAL_IP:<NODE_PORT>
+
+#dont know why cant access with 127.0.0.1 or 192.168.x.x !!!
+

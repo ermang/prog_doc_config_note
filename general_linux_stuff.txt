@@ -8,3 +8,15 @@ https://en.opensuse.org/SDB:NVIDIA_drivers
 
 how to install packman
 https://en.opensuse.org/SDB:Installing_codecs_from_Packman_repositories
+
+#localtunnel
+
+Localtunnel allows you to easily share a web service on your local development machine without messing with DNS and firewall settings.
+https://theboroer.github.io/localtunnel-www/
+
+
+
+find & search
+
+find /path/to/search -name "filename"
+
