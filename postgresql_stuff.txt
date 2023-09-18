@@ -1,0 +1,43 @@
+postgresql stuff
+
+
+#postgresql directory
+/var/lib/pgsql/data
+
+#config file for auth stuff
+pg_hba.conf
+
+by default after install a user named "postgres" is created its a linux user,
+switch to that account by
+
+su postgres
+
+then psql ENTER
+
+#run below command to create a user with name 'root' and password 'root' that
+is superuser
+
+CREATE USER root SUPERUSER PASSWORD 'root';
+
+-----
+
+#this is from default pg_hba.conf file
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD                                                                  
+
+# "local" is for Unix domain socket connections only                                                                                    
+local   all             all                                     peer
+
+replace it like this:
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD                                                                  
+
+# "local" is for Unix domain socket connections only                                                                                    
+local   all             all                                     password
+
+
+systemctl stop/start postgresql.service
+
+#to connect to db from terminal
+
+psql -U root -d postgres
