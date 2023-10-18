@@ -1,4 +1,16 @@
 
+
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+docker build --tag hsk:1.0 .
+docker run -it --name hsk hsk:1.0
+docker tag hsk:1.0 slenderwrist/hsk:1.0
+docker login
+docker push slenderwrist/hsk:1.0
+
+
+
 -----
 
 docker pull redis:7.0.10
