@@ -20,3 +20,6 @@ find & search
 
 find /path/to/search -name "filename"
 
+how to create a tar.gz file
+tar -czvf my_folder.tar.gz my_folder
+
