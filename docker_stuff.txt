@@ -26,6 +26,9 @@ docker run -it -p 6379:6379 --name my_redis redis:7.0.10
 docker start -ai my_redis
 docker exec -it my_redis bash
 
+#to copy file from host to docker container
+docker cp example.txt my_container:/home/container_user/
+
 -----
 
 docker image ls -> list downloaded images
