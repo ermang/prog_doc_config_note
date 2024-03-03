@@ -1,0 +1,8 @@
+you can disable the mayor updates in settings
+
+the latest versions with offline support (scratch pad)
+
+https://dl.pstmn.io/download/version/10.13.6/linux64
+https://dl.pstmn.io/download/version/10.13.6/osx64
+https://dl.pstmn.io/download/version/10.13.6/osx_arm64
+https://dl.pstmn.io/download/version/10.13.6/win64
