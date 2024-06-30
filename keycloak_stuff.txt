@@ -1,0 +1,11 @@
+keycloak 25.0.1 jre 21 ister
+keycloak 21.1.2 jre 11 yeter
+
+default port  Listening on: http://0.0.0.0:8080
+
+bin/kc.sh start-dev 
+
+no default username-pass, you create it from web-gui
+
+
+
