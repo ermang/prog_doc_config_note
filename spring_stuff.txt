@@ -5,3 +5,5 @@ https://github.com/Azure/azure-sdk-for-java/wiki/Spring-Versions-Mapping
 https://github.com/spring-cloud/spring-cloud-release/wiki/Supported-Versions
 
 https://github.com/spring-cloud/spring-cloud-release/wiki/Historical-Versions
+
+https://spring.io/projects/spring-cloud#overview
