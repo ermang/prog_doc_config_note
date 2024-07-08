@@ -7,5 +7,7 @@ bin/kc.sh start-dev
 
 no default username-pass, you create it from web-gui
 
+http://localhost:8080/realms/hsk-realm/.well-known/openid-configuration
+
 
 
