@@ -5,6 +5,8 @@ Client: The application requesting access to the resource.
 Authorization Server: Verifies the user and issues access tokens.
 Resource Server: Hosts the protected resources and accepts access tokens.
 
+-----
+
 OAuth 2.0 flows (also called "grant types")
 
 1. Authorization Code Flow (with or without PKCE)
@@ -43,6 +45,17 @@ Steps:
     Auth server sends access token directly in the redirect URL (no Step 4/code exchange)
     No longer recommended (access tokens exposed in the browser URL)
     Replaced by Authorization Code Flow with PKCE
+
+5. Device Authorization Flow
+
+Use case: CLI apps, IoT, smart TVs
+Steps:
+
+    User logs in using a second device (browser).
+    App polls for token. Best for CLI.
+
+
+-----
 
 OIDC (OpenID Connect) is an authentication protocol built on top of OAuth 2.0.
 
