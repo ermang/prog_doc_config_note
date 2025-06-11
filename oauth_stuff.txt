@@ -1,0 +1,49 @@
+oauth2_stuff
+
+Resource Owner: The user who owns the data.
+Client: The application requesting access to the resource.
+Authorization Server: Verifies the user and issues access tokens.
+Resource Server: Hosts the protected resources and accepts access tokens.
+
+OAuth 2.0 flows (also called "grant types")
+
+1. Authorization Code Flow (with or without PKCE)
+
+Use case: Web apps, mobile apps, and SPAs (with backend server)
+Steps:
+
+    Redirect user to auth server
+    User logs in and authorizes
+    Get an authorization code
+    Exchange the code for an access token
+
+2. Client Credentials Flow
+
+Use case: Server-to-server communication (no user involved)
+Steps:
+
+    The client sends its client_id and client_secret to the token endpoint
+    Gets back an access token
+    No user context, just app-level access
+
+3. Resource Owner Password Credentials (ROPC) Flow (Deprecated for most cases)
+
+Use case: When the user trusts the client app (e.g., legacy apps)
+Steps:
+
+    User gives their username and password to the client
+    Client exchanges credentials for a token
+    Not recommended (the client handles the user’s password directly)
+
+4. Implicit Flow  (Deprecated)
+
+Use case: Pure browser-based apps (SPAs)
+Steps:
+
+    Auth server sends access token directly in the redirect URL (no Step 4/code exchange)
+    No longer recommended (access tokens exposed in the browser URL)
+    Replaced by Authorization Code Flow with PKCE
+
+OIDC (OpenID Connect) is an authentication protocol built on top of OAuth 2.0.
+
+While OAuth 2.0 is about authorization (“Can this app access your data?”), OIDC is about authentication (“Who are you?”).
